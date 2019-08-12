@@ -1,6 +1,10 @@
 var Encore = require('@symfony/webpack-encore');
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
+/* SPECIAL IMPORTS FOR CKEDITOR 5 */
+const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
+const { styles } = require('@ckeditor/ckeditor5-dev-utils');
+
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
@@ -76,6 +80,25 @@ Encore
   .addPlugin(new HtmlWebpackPlugin({
     template: 'index.html',
   }))
+
+  /* SPECIAL CONFIGURATION FOR CKEDITOR 5 */
+  .enablePostCssLoader(options => {
+    Object.assign(options, styles.getPostCssConfig({
+      themeImporter: {
+        themePath: require.resolve('@ckeditor/ckeditor5-theme-lark'),
+      },
+    }));
+  })
+  .addPlugin(new CKEditorWebpackPlugin({
+    language: 'fr',
+  }))
+  .addRule({
+    test: /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/,
+    loader: 'raw-loader'
+  })
+  .configureLoaderRule('images', loader => {
+    loader.exclude = /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/;
+  })
 ;
 
 module.exports = Encore.getWebpackConfig();
