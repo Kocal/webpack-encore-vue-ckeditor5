@@ -4,7 +4,6 @@
 
 <script>
 import CKEditor from '@ckeditor/ckeditor5-vue';
-
 // ⚠️ NOTE: We don't use @ckeditor/ckeditor5-build-classic any more!
 // Since we're building CKEditor from source, we use the source version of ClassicEditor.
 import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
@@ -18,7 +17,7 @@ import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 export default {
   name: "CKEditor",
   components: {
-    ckeditor: CKEditor.component
+    ckeditor: CKEditor.component,
   },
   props: {
     value: {
@@ -53,7 +52,7 @@ export default {
   computed: {
     editorData: {
       get() {
-        return this.value,
+        return this.value;
       },
       set(value) {
         this.$emit('input', value);
