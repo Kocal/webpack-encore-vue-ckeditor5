@@ -7,13 +7,13 @@ This repo shows how to build CKEditor 5 from source, with Webpack Encore and Vue
 Install dependencies:
 ```bash
 # Dev dependencies
-$ yarn add --xdev @ckeditor/ckeditor5-dev-utils \
+$ yarn add --dev @ckeditor/ckeditor5-dev-utils \
 @ckeditor/ckeditor5-dev-webpack-plugin \
-@ckeditor/ckeditor5-vue \
 raw-loader
 
 # Dependencies
-$ yarn add @ckeditor/ckeditor5-basic-styles \
+$ yarn add @ckeditor/ckeditor5-vue \
+@ckeditor/ckeditor5-basic-styles \
 @ckeditor/ckeditor5-editor-classic \
 @ckeditor/ckeditor5-essentials \
 @ckeditor/ckeditor5-link \
