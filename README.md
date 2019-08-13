@@ -30,12 +30,14 @@ Encore
   // Your configuration ...
   
   // Configure PostCSS
-  .enablePostCssLoader(options => {
-    Object.assign(options, styles.getPostCssConfig({
+  .addLoader({
+    test: /ckeditor5-[^/\\]+[/\\].+\.css$/,
+    loader: 'postcss-loader',
+    options: styles.getPostCssConfig({
       themeImporter: {
         themePath: require.resolve('@ckeditor/ckeditor5-theme-lark'),
       },
-    }));
+    }),
   })
   
   // See https://www.npmjs.com/package/@ckeditor/ckeditor5-dev-webpack-plugin
