@@ -82,23 +82,32 @@ Encore
   }))
 
   /* SPECIAL CONFIGURATION FOR CKEDITOR 5 */
-  .enablePostCssLoader(options => {
-    Object.assign(options, styles.getPostCssConfig({
-      themeImporter: {
-        themePath: require.resolve('@ckeditor/ckeditor5-theme-lark'),
-      },
-    }));
-  })
-  .addPlugin(new CKEditorWebpackPlugin({
-    language: 'fr',
+  .addPlugin( new CKEditorWebpackPlugin( {
+    // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
+    language: 'fr'
   }))
-  .addRule({
-    test: /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/,
-    loader: 'raw-loader'
-  })
-  .configureLoaderRule('images', loader => {
-    loader.exclude = /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/;
-  })
+
+  // Use raw-loader for CKEditor 5 SVG files.
+  .addRule( {
+    test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+      loader: 'raw-loader'
+   })
+
+   // Configure other image loaders to exclude CKEditor 5 SVG files.
+   .configureLoaderRule( 'images', loader => {
+     loader.exclude = /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/;
+   })
+
+   // Configure PostCSS loader.
+   .addLoader({
+     test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+     loader: 'postcss-loader',
+     options: styles.getPostCssConfig( {
+       themeImporter: {
+         themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
+      }
+     })
+   })
 ;
 
 module.exports = Encore.getWebpackConfig();
